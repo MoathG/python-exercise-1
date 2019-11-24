@@ -120,6 +120,12 @@ new_list = [1, 3, 6 , 7, 11]
 print('the minimum number of the list is: ', end='')
 print(functools.reduce(lambda a,b : a if a < b else b, new_list))
 
+print('-------------------------------------------------')
+
+#exercise 15
+numbers = [1, 2, 3]
+letters=['a', 'b', 'c']
+print(list(zip(numbers, letters)))
 
 
 
