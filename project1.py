@@ -214,7 +214,7 @@ Employees Total Loans: {employees_total_loans}
 # =========================================================
 
 # 11
-LoanDictionary = list(map(lambda e: {e.employee_number: e.getLoans()}, employee_has_loans))
+LoanDictionary = list(map(lambda e: {e.employee_number: e.getLoans()}, employee_loans))
 # print(LoanDictionary)
 for item in LoanDictionary:
     print(item)
