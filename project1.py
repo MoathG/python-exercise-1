@@ -5,219 +5,250 @@ Created on Tue Nov 26 11:20:41 2019
 @author: Moath
 """
 
+from functools import reduce
+
+
 class Person:
     def __init__(self, name, address):
         self._name = name
         self._address = address
-        
-        
+
     def getName(self):
         return self._name
-    
+
     def setName(self, name):
         self._name = name
 
     def getAddress(self):
         return self._address
-    
+
     def setAddress(self, address):
         self._address = address
-        
-    def __del__(self):
-        print(self._name + ' have been deleted')
 
-            
-        
-p1 = Person('rashed', 'amman')
+    def __del__(self):
+        print(f'Student {self._name} has been deleted')
+
 
 class Employee(Person):
-# =============================================================================
-#     employee_number = 0
-#     __salary = 0.0
-#     __job_title = ''
-#     __loans = []
-# =============================================================================
-    
     def __init__(self, employee_number, name, address, salary, job_title, loans):
+        super().__init__(name, address)
         self.employee_number = employee_number
-        Person.__init__(self, name, address)
         self.__salary = salary
         self.__job_title = job_title
         self.__loans = loans
-        
+
     def getSalary(self):
         return self.__salary
-    
+
     def setSalary(self, salary):
         self.__salary = salary
-        
+
     def getJobTitle(self):
         return self.__job_title
-    
+
     def setJobTitle(self, job_title):
         self.__job_title = job_title
-        
+
     def getTotalLoans(self):
-        s = 0
-        for n in self.__loans:
-            s = s + n
-        return s
-    
-    def getMaxLon(self):
-        #import functools
-        #Max = functools.reduce(lambda a,b : a if a > b else b, self.__loans)
+        return sum(self.__loans)
+
+    def getMaxLoans(self):
+        if len(self.__loans) < 1:
+            return None
         return max(self.__loans)
-    
-    def getMinLon(self):
-        if len(self.__loans) < 1 : 
+
+    def getMinLoans(self):
+        if len(self.__loans) < 1:
             return None
         return min(self.__loans)
-    
-    def setLoans(self, add):
-        self.__loans.append(add)
-        
+
+    def setLoans(self, loans):
+        self.__loans = loans
+
     def getLoans(self):
         return self.__loans
-        
-    def print_info(self):
+
+    def printInfo(self):
         print(f'''
+Name: {self._name}
+Address: {self._address}
 Employee Number: {self.employee_number}
-Salary : {self.__salary}
+Salary: {self.__salary}
 Job Title: {self.__job_title}
 Loans: {self.__loans}
-Total Loans: {self.getTotalLoans()}
         ''')
-        
-    def __del__(self):
-        print(self._name + ' have been deleted')
-    
-# =============================================================================
-# p2 = Employee(1, 200.3, 'engineer', [30, 60, 90])
-# 
-# print(p2.getTotalLoans())
-# print(p2.getMaxLon())
-# print(p2.getMinLon())
-# p2.setLoans(75)
-# print(p2.getTotalLoans())
-# p2.print_info()
-# =============================================================================
-    
-        
-class Student(Person):
-# =============================================================================
-#     student_number = 0
-#     subject = ''
-#     marks = {}
-# =============================================================================
 
+    def __del__(self):
+        print(f'Employee: {self.employee_number} have been deleted')
+
+
+
+class Student(Person):
     def __init__(self, student_number, name, address, subject, marks):
-        Person.__init__(self, name, address)
+        super().__init__(name, address)
         self.student_number = student_number
         self.__subject = subject
         self.__marks = marks
-        
+
     def getSubject(self):
         return self.__subject
-    
+
     def setSubject(self, subject):
         self.__subject = subject
 
     def getMarks(self):
         return self.__marks
-    
-    def setMarks(self, key, value):
-        self.__marks[key] = value
-        
+
+    def setMarks(self, marks):
+        self.__marks = marks
+
     def getAverage(self):
-        sum1 = 0
-        c = 0
-        for k,v in self.__marks.items():
-            sum1 = sum1 + v
-            c = c + 1
-        return sum1/c
-    
-    def print_info(self):
+        summation = 0
+        length = 0
+
+        for key, value in self.__marks.items():
+            summation += value
+            length += 1
+
+        average = summation / length
+        return average
+
+    def getAllMarks(self):
+        average = self.getAverage()
+
+        if average >= 90:
+            True
+        else:
+            return False
+        # return list(filter(lambda x: x >= 90, self.__marks))
+
+    def printInfo(self):
         print(f'''
-Student Number: {self.student_number}
-Student subject: {self.__subject}
-Student Marks: {self.__marks}
-Student Average: {self.getAverage()}
+Name: {self._name}
+Address: {self._address}
+Student nUmber: {self.student_number}
+Subject: {self.__subject}
+Marks: {self.__marks}
         ''')
-        
-# =============================================================================
-#     def __del__(self):
-#         print(" I have been Delete!")
-# =============================================================================
-        
-# =============================================================================
-# p3 = Student(1, 'math', {'math': 85, 'science': 90, 'English': 87})
-# print(p3.getMarks())
-# p3.setMarks('Arabic', 79)
-# print(p3.getMarks())
-# print(p3.getAverage())
-# p3.print_info()
-# =============================================================================
 
+    def __del__(self):
+        print(f'Student: {self.student_number} I have been deleted')
 
-"""1"""
-EmployeesList=[]
-Employee1= Employee(1000,"Ahmed Yazan","Amman, jordan",500,"HR Consultant",[434,200,1020])
-EmployeesList.append(Employee1)
-Employee2= Employee(2000,"Hala Rana","Aqaba, jordan",750,"Department Manager",[150,3000,250])
-EmployeesList.append(Employee2)
-Employee3= Employee(3000,"Mariam Ali","Mafraq, jordan",600,"HR s Consultant",[304,1000,250,300,500,235])
-EmployeesList.append(Employee3)
-Employee4= Employee(4000,"Yasmin Mohamed","Karak, jordan",865,"Director",[])
-EmployeesList.append(Employee4)
-"""2"""
-StudentsList=[]
-Student1= Student(20191000,"Khalid ali","Irbid, jordan","History",{"English":80,"Arabic":90,"Art":95,"managment":75})
-StudentsList.append(Student1)
-Student2= Student(20182000,"Reem Hani","Zaraqa, jordan","Softwere Eng",{"English":80,"Arabic":90,"managment":75,"Calculus":85,"OS":73,"Programming":90})
-StudentsList.append(Student2)
-Student3= Student(20161001,"Nawras Abdallah","Amman, jordan","Art",{"English":83,"Arabic":92,"Art":90,"managment":70})
-StudentsList.append(Student3)
-Student4= Student(20172030,"Reem Hani","Zaraqa, jordan","Softwere Eng",{"English":83,"Arabic":92,"managment":70,"Calculus":80,"OS":79,"Programming":91})
-StudentsList.append(Student4)
-Student5= Student(20172030,"Reem Hani","Zaraqa, jordan","Softwere Eng",{"English":83,"Arabic":92,"managment":70,"Calculus":80,"OS":79,"Programming":91})
+print('-------------------------')
 
-for x in StudentsList:
-    x.print_info()
+employee1 = Employee(1000, 'Ahamad Yazan', 'Amman, Jordan', 500, 'HR Consultant', [434, 200, 1020])
+employee2 = Employee(2000, 'Hala Rana', 'Aqaba, Jordan', 750, 'Department Manager', [150, 3000, 250])
+employee3 = Employee(3000, 'Mariam Ali', 'Mafraq, Jordan', 600, 'HR S Consultant', [304, 1000, 250, 3000, 5000, 235])
+employee4 = Employee(4000, 'Yasmeen Mohammad', 'Karak, Jordan', 865, 'Director', [])
+
+student1 = Student(20191000, 'Khalid Ali', 'Irbid, Jordan', 'History', {
+    'english': 80,
+    'arabic': 90,
+    'art': 95,
+    'management': 75
+})
+student2 = Student(20182000, 'Reem Hani', 'Zarqa, Jordan', 'Software Eng', {
+    'english': 80,
+    'arabic': 90,
+    'management': 75,
+    'calculus': 85,
+    'os': 73,
+    'programming': 90
+})
+student3 = Student(20161001, 'Nawras Abdulllah', 'Amman, Jordan', 'Arts', {
+    'english': 83,
+    'arabic': 92,
+    'art': 90,
+    'management': 70
+})
+student4 = Student(20172030, 'Amal Raed', 'Tafelah, Jordan', 'Computer Eng', {
+    'english': 83,
+    'arabic': 92,
+    'art': 90,
+    'management': 70,
+    'calculus': 80,
+    'os': 79,
+    'programming': 91
+})
+
     
-for y in EmployeesList:
-    y.print_info()
-    
-print('we have', len(EmployeesList), 'employees')
-print('We have', len(StudentsList), 'students')
+# 1
+EmployeesList = [employee1, employee2, employee3, employee4]
+
+print('-------------------------')
+
+# 2
+StudentsList = [student1, student2, student3, student4]
+
+print('-------------------------')
+
+# 3 & 4
+def len_list(lst_name, lst):
+    print(lst_name + ' has ' + str(len(lst)) + ' Persons')
 
 
-the_average = list(map(lambda x: x.getAverage(), StudentsList))
-print(max(the_average))
+len_list('EmployeesList', EmployeesList)
+len_list('StudentsList', StudentsList)
 
-#8
-employee_loans = list(filter(lambda x: x.getMinLon(), EmployeesList))
-min_employee_loan = min(list(map(lambda x: x.getMinLon(), employee_loans)))
-print('Employees Min loans is: ' + str(min_employee_loan))
+print('-------------------------')
 
-#9
-max_employee_loans = max(list(map(lambda x: x.getMaxLon(), employee_loans)))
-print('Employees Max loans is: ' + str(max_employee_loans))
+# 5
+for employee in EmployeesList:
+    employee.printInfo()
+    print('Total Loans: ', employee.getTotalLoans())
+    print('\n\n')
 
-#10
-employees_loans = list(map(lambda x: x.getLoans(), employee_loans))
-employees_total_loans = list(map(lambda x: x.getTotalLoans(), employee_loans))
+print('-------------------------')
+
+# 6
+for student in StudentsList:
+    student.printInfo()
+    print('Average: ' + str(student.getAverage()))
+
+print('-------------------------')
+
+# 7
+highest_student_average = 0
+
+for student in StudentsList:
+    if highest_student_average < student.getAverage():
+        highest_student_average = student.getAverage()
+
+print('Highest student average: ' + str(highest_student_average))
+
+print('-------------------------')
+
+# 8
+employee_has_loans = list(filter(lambda e: e.getMinLoans(), EmployeesList))
+min_employee_loan = min(list(map(lambda e: e.getMinLoans(), employee_has_loans)))
+print('Employees\' Min Loans is: ' + str(min_employee_loan))
+
+print('-------------------------')
+
+# 9
+max_employee_loan = max(list(map(lambda e: e.getMaxLoans(), employee_has_loans)))
+print('Employees\' Max Loans is: ' + str(max_employee_loan))
+
+print('-------------------------')
+
+# 10
+employees_loans = list(map(lambda e: e.getLoans(), employee_has_loans))
+employees_total_loans = list(map(lambda e: e.getTotalLoans(), employee_has_loans))
 print(f'''
 Employees Loans: {employees_loans}
-Employees Total Loans: {employees_total_loans}      
+Employees Total Loans: {employees_total_loans}
 ''')
 
-# =========================================================
+print('-------------------------')
 
 # 11
-LoanDictionary = list(map(lambda e: {e.employee_number: e.getLoans()}, employee_loans))
+
+LoanDictionary = list(map(lambda e: {e.employee_number: e.getLoans()}, employee_has_loans))
 # print(LoanDictionary)
 for item in LoanDictionary:
     print(item)
+
+print('-------------------------')
 
 
 # 12
@@ -235,6 +266,8 @@ for employee in employee_has_loans:
     print(
         f'Employee Name: {employee._name} Min Loan: {get_min_loan(employee.getLoans())} Max Loan: {get_max_loan(employee.getLoans())}')
 
+print('-------------------------')
+
 # 13
 students_got_a = list(filter(lambda s: s.getAllMarks(), StudentsList))
 for student in students_got_a:
@@ -244,19 +277,26 @@ Subject: {student.getSubject()}
 Marks: {student.getMarks()}
 ''')
 
+print('-------------------------')
+
 # 14
 employee_salaries = list(map(lambda e: e.getSalary(), EmployeesList))
 max_employee_salary = max(employee_salaries)
 print('Maximum Employee Salary', max_employee_salary)
 
+print('-------------------------')
+
 # 15
 min_employee_salary = min(employee_salaries)
 print('Minimum Employee Salary', min_employee_salary)
-# 16
 
+print('-------------------------')
+
+# 16
 total_salaries = reduce(lambda a, b: a + b, employee_salaries)
 print('Total Employees Salaries ', total_salaries)
 
+print('-------------------------')
 
 # 17
 def delete_object(lst_object):
@@ -266,6 +306,166 @@ def delete_object(lst_object):
 
 delete_object(EmployeesList)
 delete_object(StudentsList)
+
+print('-------------------------')
+
+# project 2
+
+employees_list = []
+
+from tkinter import * 
+
+
+root = Tk()
+root.title('menu_win')
+def notdone():
+    messagebox.showinfo('Note implemented', 'Not yet available')
+top = Menu(root)
+root.config(menu=top)
+
+def open_add():
+    top = Toplevel(root)
+    top.title('Add new employee')
+    top.geometry('500x250+510+230')
+    
+    Label(top, text ='Name: ').grid(row = 0, column = 0)
+    
+    Label(top, text = 'Employee Number: ').grid(row = 1, column = 0)
+    
+    Label(top, text = 'Address: ').grid(row = 2, column = 0)
+    
+    Label(top, text = 'Salary: ').grid(row = 3, column = 0)
+    
+    Label(top, text = 'Job title: ').grid(row = 4, column = 0)
+    
+    Label(top, text = 'Loans ').grid(row = 5, column = 0)
+    
+    name_value = StringVar()
+    emp_num_value = IntVar()
+    address_value = StringVar()
+    salary_value = IntVar()
+    job_title_value = StringVar()
+    loans_value = StringVar()
+    
+    name = Entry(top, textvariable = name_value).grid(row = 0, column = 1)
+    emp_num = Entry(top, textvariable = emp_num_value).grid(row = 1, column = 1)
+    address = Entry(top, textvariable = address_value).grid(row = 2, column = 1)
+    salary = Entry(top, textvariable = salary_value).grid(row = 3, column = 1)
+    job_title = Entry(top, textvariable = job_title_value).grid(row = 4, column = 1)
+    loans = Entry(top, textvariable = loans_value).grid(row = 5, column = 1)
+    
+    
+    def Pressed():
+        employee = Employee(
+                emp_num_value.get(), 
+                name_value.get(), 
+                address_value.get(), 
+                salary_value.get(), 
+                job_title_value.get(), 
+                [200, 160, 50])
+        
+        employee.printInfo()
+        employees_list.append(employee)
+
+    submit = Button(top, text = "Submit", command = Pressed).grid(row = 6, column = 0)
+    
+def view_employee():
+    top = Toplevel(root)
+    top.title("View Employee")
+    top.geometry("500x500+510+230")
+    Label(top, text="View Employee").grid()
+    x = 100
+    y = 100
+    for employee in employees_list:
+        data = f"Name: {employee.getName()} \t" \
+               f"Address: {employee.getAddress()} \t" \
+               f"Number: {employee.employee_number} \t" \
+               f"Title: {employee.getJobTitle()} \t" \
+               f"Salary: {employee.getSalary()} \t" \
+               f"Loans: {employee.getLoans()} \t" \
+               f""
+        Label(top, text=data).grid()
+        y += 20
+        
+def add_student():
+    c = Toplevel(root)
+    c.title("Add New Student")
+    c.geometry("500x500+510+230")
+    Label(c, text="Add New Student").grid()
+    
+    Label(c, text = 'Student Number').grid(row = 0, column = 0)
+    Label(c, text = 'Name').grid(row = 1, column = 0)
+    Label(c, text = 'Address').grid(row = 2, column = 0)
+    Label(c, text = 'Subject').grid(row = 3, column = 0)
+    Label(c, text = 'Mark').grid(row = 4, column = 0)
+    
+    student_number_value = IntVar()
+    name_value = StringVar()
+    address_value = StringVar()
+    subject_value = StringVar()
+    marks_value = IntVar()
+    
+    student_number = Entry(c, textvariable = student_number_value).grid(row = 0, column = 1)
+    name = Entry(c, textvariable = name_value).grid(row = 1, column = 1)
+    address = Entry(c, textvariable = address_value).grid(row = 2, column = 1)
+    subject = Entry(c, textvariable = subject_value).grid(row = 3, column = 1)
+    marks = Entry(c, textvariable = marks_value).grid(row = 4, column = 1)
+    
+    def save_student():
+        student = Student(
+                student_number_value.get(),
+                name_value.get(),
+                address_value.get(),
+                subject_value.get(),
+                marks_value.get())
+        student.printInfo()
+        students_list.append(student)
+        
+    button = Button(c, text = 'Submit', command = save_student).grid(row = 5, column = 0)
+    
+def view_student():
+    c = Toplevel(root)
+    c.title("View Student")
+    c.geometry("500x500+510+230")
+    Label(c, text="View Student").grid()
+    
+    x = 100
+    y = 100
+    
+    for student in students_list:
+        data = f"Name: {student.getName()} \t" \
+               f"Address: {student.getAddress()} \t" \
+               f"Number: {student.student_number} \t" \
+               f"Subject: {student.getSubject()} \t" \
+               f"Marks: {student.getMarks()} \t" \
+               f""
+        Label(c, text=data).grid()
+        y += 20
+
+file = Menu(top, tearoff=0)
+file.add_command(label="Report", command=notdone)
+file.add_separator()
+file.add_command(label="Exit", command=root.destroy)
+top.add_cascade(label="File", menu=file)
+
+employee = Menu(top, tearoff=0)
+employee.add_command(label='Add', command=open_add)
+employee.add_command(label="View", command=view_employee)
+employee.add_command(label="Delete", command=notdone)
+top.add_cascade(label="Employees", menu=employee)
+
+student = Menu(top, tearoff=0)
+student.add_command(label='Add', command=add_student)
+student.add_command(label="View", command=view_student)
+student.add_command(label="Delete", command=notdone)
+top.add_cascade(label="Student", menu=student)
+
+help_ = Menu(top, tearoff=0)
+help_.add_command(label='About', command=notdone)
+top.add_cascade(label="Help", menu=help_)
+
+root.mainloop()
+
 
 
 

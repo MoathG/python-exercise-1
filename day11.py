@@ -178,25 +178,23 @@ from tkinter import scrolledtext
 
 print('--------------------')
 
-# =============================================================================
-# root = Tk()
-# root.title('menu_win')
-# def notdone():
-#     messagebox.showinfo('Note implemented', 'Not yet available')
-# top = Menu(root)
-# root.config(menu=top)
-# file = Menu(top, tearoff=0)
-# file.add_command(label="New...", command=notdone)
-# file.add_command(label='Open...', command=notdone)
-# file.add_separator()
-# file.add_command(label="Quit", command=root.destroy)
-# top.add_cascade(label="File", menu=file)
-# edit = Menu(top, tearoff=0)
-# edit.add_command(label='Cut', command=notdone)
-# edit.add_command(label="Paste", command=notdone)
-# top.add_cascade(label="Edit", menu=edit)
-# root.mainloop()
-# =============================================================================
+root = Tk()
+root.title('menu_win')
+def notdone():
+    messagebox.showinfo('Note implemented', 'Not yet available')
+top = Menu(root)
+root.config(menu=top)
+file = Menu(top, tearoff=0)
+file.add_command(label="New...", command=notdone)
+file.add_command(label='Open...', command=notdone)
+file.add_separator()
+file.add_command(label="Quit", command=root.destroy)
+top.add_cascade(label="File", menu=file)
+edit = Menu(top, tearoff=0)
+edit.add_command(label='Cut', command=notdone)
+edit.add_command(label="Paste", command=notdone)
+top.add_cascade(label="Edit", menu=edit)
+root.mainloop()
 
 print('--------------------')
 
