@@ -312,6 +312,7 @@ print('-------------------------')
 # project 2
 
 employees_list = []
+students_list = []
 
 from tkinter import * 
 
@@ -323,6 +324,10 @@ def notdone():
 top = Menu(root)
 root.config(menu=top)
 
+def open_about():
+    messagebox.showinfo('About Us', 'Made by Moath Gharib & Rashed Mgdadi & Emad Alrashed')
+
+# adding employees
 def open_add():
     top = Toplevel(root)
     top.title('Add new employee')
@@ -368,7 +373,8 @@ def open_add():
         employees_list.append(employee)
 
     submit = Button(top, text = "Submit", command = Pressed).grid(row = 6, column = 0)
-    
+
+# Viewing employees
 def view_employee():
     top = Toplevel(root)
     top.title("View Employee")
@@ -387,6 +393,32 @@ def view_employee():
         Label(top, text=data).grid()
         y += 20
         
+# Deleting Employees
+def delete_employee():
+    c = Toplevel(root)
+    c.title("Delete Employee")
+    c.geometry("500x500+510+230")
+    Label(c, text="Delete Employee").grid()
+
+    Label(c, text="Employee Number").place(x=20, y=20)
+    employee_number_value = IntVar()
+    
+    def del_employee():
+        global employees_list
+        old_length = len(employees_list)
+        employees_list = list(filter(lambda e: not e.employee_number == employee_number_value.get(), employees_list))
+        new_length = len(employees_list)
+
+        if not old_length == new_length:
+            messagebox.showinfo('Success', f'Employee has been deleted, with number {employee_number_value.get()}')
+        else:
+            messagebox.showinfo('warning', 'There is not employee with the provided number')
+
+    Entry(c, textvariable=employee_number_value).place(x=150, y=20)
+    Button(c, text="Delete", command=del_employee).place(x=20, y=40)
+
+
+# adding students
 def add_student():
     c = Toplevel(root)
     c.title("Add New Student")
@@ -411,6 +443,7 @@ def add_student():
     subject = Entry(c, textvariable = subject_value).grid(row = 3, column = 1)
     marks = Entry(c, textvariable = marks_value).grid(row = 4, column = 1)
     
+    # saving students
     def save_student():
         student = Student(
                 student_number_value.get(),
@@ -422,7 +455,8 @@ def add_student():
         students_list.append(student)
         
     button = Button(c, text = 'Submit', command = save_student).grid(row = 5, column = 0)
-    
+
+# viewing students
 def view_student():
     c = Toplevel(root)
     c.title("View Student")
@@ -442,6 +476,31 @@ def view_student():
         Label(c, text=data).grid()
         y += 20
 
+
+# Deleting student    
+def delete_student():
+    c = Toplevel(root)
+    c.title("Delete Student")
+    c.geometry("500x500+510+230")
+    Label(c, text="Delete Student").grid()
+
+    Label(c, text="Student Number").place(x=20, y=20)
+    student_number_value = IntVar()
+
+    def del_student():
+        global students_list
+        old_length = len(students_list)
+        students_list = list(filter(lambda e: not e.student_number == student_number_value.get(), students_list))
+        new_length = len(students_list)
+
+        if not old_length == new_length:
+            messagebox.showinfo('Success', f'Student with number "{student_number_value.get()}" has been deleted')
+        else:
+            messagebox.showinfo('Warning', 'There is not student with the provided number')
+
+    Entry(c, textvariable=student_number_value).place(x=150, y=20)
+    Button(c, text="Delete", command=del_student).place(x=20, y=40)
+
 file = Menu(top, tearoff=0)
 file.add_command(label="Report", command=notdone)
 file.add_separator()
@@ -451,25 +510,18 @@ top.add_cascade(label="File", menu=file)
 employee = Menu(top, tearoff=0)
 employee.add_command(label='Add', command=open_add)
 employee.add_command(label="View", command=view_employee)
-employee.add_command(label="Delete", command=notdone)
+employee.add_command(label="Delete", command=delete_employee)
 top.add_cascade(label="Employees", menu=employee)
 
 student = Menu(top, tearoff=0)
 student.add_command(label='Add', command=add_student)
 student.add_command(label="View", command=view_student)
-student.add_command(label="Delete", command=notdone)
+student.add_command(label="Delete", command=delete_student)
 top.add_cascade(label="Student", menu=student)
 
 help_ = Menu(top, tearoff=0)
-help_.add_command(label='About', command=notdone)
+help_.add_command(label='About', command=open_about)
 top.add_cascade(label="Help", menu=help_)
 
 root.mainloop()
-
-
-
-
-
-
-
 
